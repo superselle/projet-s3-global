@@ -1,0 +1,36 @@
+Description,Resource,Location
+The method estFemme() is undefined for the type Etudiant ,GroupingUtilsSelman.java ,line 361 
+The method estEnAttenteApprentissage() is undefined for the type Etudiant ,GroupingUtilsSelman.java ,line 348 
+The method getNom() is undefined for the type Groupe ,GroupingUtilsSelman.java ,line 330 
+The method getNombreFemmes() is undefined for the type Groupe ,GroupingUtilsSelman.java ,line 277 
+The method getNombreApprentis() is undefined for the type Groupe ,GroupingUtilsSelman.java ,line 276 
+The method getNombreApprentis() is undefined for the type Groupe ,GroupingUtilsSelman.java ,line 239 
+The method getNombreApprentis() is undefined for the type Groupe ,GroupingUtilsSelman.java ,line 237 
+The method getNombreApprentis() is undefined for the type Groupe ,DemoSelman.java ,line 225 
+The method getNombreFemmes() is undefined for the type Groupe ,DemoSelman.java ,line 224 
+Type mismatch: cannot convert from int to String ,GloutonPrioriteSelman.java ,line 215 
+The method getNombreApprentis() is undefined for the type Groupe ,GroupingUtilsSelman.java ,line 205 
+Cannot invoke isEmpty() on the primitive type int ,DemoSelman.java ,line 182 
+"The operator != is undefined for the argument type(s) int, null ",DemoSelman.java ,line 182 
+"The constructor Groupe(int, String, int) is undefined ",GroupingUtilsSelman.java ,line 170 
+The method setIdCovoiturage(int) in the type Etudiant is not applicable for the arguments (String) ,DemoSelman.java ,line 162 
+The method setIdCovoiturage(int) in the type Etudiant is not applicable for the arguments (String) ,DemoSelman.java ,line 161 
+Type mismatch: cannot convert from int to String ,GloutonScoreSelman.java ,line 161 
+Cannot invoke isEmpty() on the primitive type int ,DemoSelman.java ,line 158 
+"The operator == is undefined for the argument type(s) int, null ",DemoSelman.java ,line 158 
+Cannot invoke isEmpty() on the primitive type int ,DemoSelman.java ,line 157 
+"The operator == is undefined for the argument type(s) int, null ",DemoSelman.java ,line 157 
+"The method setStatut((estApprenti ? ""En attente d'apprentissage"" : ""Initial"")) is undefined for the type Etudiant ",DemoSelman.java ,line 126 
+"The method setGenre(char) in the type Utilisateur is not applicable for the arguments ((estFille ? ""F"" : ""M"")) ",DemoSelman.java ,line 122 
+Type mismatch: cannot convert from String to char ,DemoSelman.java ,line 122 
+"The constructor Etudiant(int, String, String, String, null, null) is undefined ",DemoSelman.java ,line 111 
+Type mismatch: cannot convert from int to String ,GroupingUtilsSelman.java ,line 77 
+The method estEnAttenteApprentissage() is undefined for the type Etudiant ,Pack.java ,line 62 
+The method estFemme() is undefined for the type Etudiant ,Pack.java ,line 59 
+The method setIdCovoiturage(int) in the type Etudiant is not applicable for the arguments (String) ,GenerateurDonnees.java ,line 45 
+The method setIdCovoiturage(int) in the type Etudiant is not applicable for the arguments (String) ,GenerateurDonnees.java ,line 44 
+"The operator == is undefined for the argument type(s) int, null ",GenerateurDonnees.java ,line 42 
+"The method setStatut(((random.nextInt(100) < 15) ? ""En attente d'apprentissage"" : ""Initial"")) is undefined for the type Etudiant ",GenerateurDonnees.java ,line 26 
+"The method setGenre(char) in the type Utilisateur is not applicable for the arguments (((random.nextInt(100) < 25) ? ""F"" : ""M"")) ",GenerateurDonnees.java ,line 25 
+Type mismatch: cannot convert from String to char ,GenerateurDonnees.java ,line 25 
+"The constructor Etudiant(int, String, String, String, null, null) is undefined ",GenerateurDonnees.java ,line 15 

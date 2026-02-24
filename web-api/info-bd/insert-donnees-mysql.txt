@@ -1,0 +1,347 @@
+-- ============================================================
+-- SCRIPT D'INSERTION (AUTO-INCREMENT NATUREL)
+-- ============================================================
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- On vide les tables
+DELETE FROM CHOIX_BINOME;
+DELETE FROM ETUDIANT_REPONSE;
+DELETE FROM NOTE;
+DELETE FROM ETUDIANT;
+DELETE FROM ENSEIGNANT;
+DELETE FROM GROUPE;
+DELETE FROM MATIERE;
+DELETE FROM PARCOURS;
+DELETE FROM FORMATION;
+DELETE FROM REPONSE;
+DELETE FROM SONDAGE;
+DELETE FROM UTILISATEUR;
+DELETE FROM ROLE;
+DELETE FROM TYPE_BAC;
+DELETE FROM MENTION_BAC;
+
+-- Réinitialiser les auto-increments
+ALTER TABLE UTILISATEUR AUTO_INCREMENT = 1;
+ALTER TABLE ETUDIANT AUTO_INCREMENT = 1;
+ALTER TABLE ENSEIGNANT AUTO_INCREMENT = 1;
+ALTER TABLE GROUPE AUTO_INCREMENT = 1;
+ALTER TABLE MATIERE AUTO_INCREMENT = 1;
+ALTER TABLE NOTE AUTO_INCREMENT = 1;
+ALTER TABLE SONDAGE AUTO_INCREMENT = 1;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- ------------------------------------------------------------
+-- 1. CONFIGURATION (Dictionnaires & Formation)
+-- ------------------------------------------------------------
+
+-- Rôles, Bacs, Mentions
+INSERT INTO ROLE (id_role, libelle_role, description) VALUES
+('RESP_FORM', 'Responsable Formation', 'Responsable de la formation'),
+('RESP_PED',  'Responsable Pédagogique', 'Responsable année/semestre'),
+('ENS',       'Enseignant', 'Enseignant classique');
+
+INSERT INTO TYPE_BAC (id_type, libelle_type) VALUES
+('GEN', 'Général'), ('TECH', 'Technologique'), ('PRO', 'Professionnel'), ('AUTRE', 'Autre');
+
+INSERT INTO MENTION_BAC (id_mention, libelle_mention) VALUES
+('PASS', 'Passable'), ('AB', 'Assez Bien'), ('B', 'Bien'), ('TB', 'Très Bien');
+
+-- Formation et Parcours
+INSERT INTO FORMATION (id_formation, nom_formation) VALUES ('BUT_INFO', 'BUT Informatique');
+
+INSERT INTO PARCOURS (id_parcours, initiale_parcours, nom_parcours, type_parcours, id_formation) VALUES
+('P_GEN', 'G', 'Tronc Commun (Général)', 'Initial', 'BUT_INFO'),
+('P_A',   'A', 'Parcours A: Réalisation d’applications', 'Mixte', 'BUT_INFO'),
+('P_B',   'B', 'Parcours B: Déploiement d’applications', 'Mixte', 'BUT_INFO'),
+('P_C',   'C', 'Parcours C: Administration et données', 'Mixte', 'BUT_INFO');
+
+-- ------------------------------------------------------------
+-- 2. MATIERES (On garde tes IDs fixes pour la cohérence pédagogique)
+-- ------------------------------------------------------------
+INSERT INTO MATIERE (id_matiere, code_matiere, nom_matiere, semestre, type_matiere) VALUES
+-- Semestre 1
+(101, 'R1.01', 'InitDev1', 1, 'RESSOURCE'), (102, 'R1.01', 'InitDev2', 1, 'RESSOURCE'),
+(103, 'R1.02', 'Dev interfaces WEB', 1, 'RESSOURCE'), (104, 'R1.03', 'Intro archi ordinateurs', 1, 'RESSOURCE'),
+(105, 'R1.04', 'Systèmes d''exploitation', 1, 'RESSOURCE'), (106, 'R1.05', 'Intro BD et SQL', 1, 'RESSOURCE'),
+(107, 'R1.06', 'Maths discrètes', 1, 'RESSOURCE'), (108, 'R1.07', 'Outils maths', 1, 'RESSOURCE'),
+(109, 'R1.08', 'Gestion de projets', 1, 'RESSOURCE'), (110, 'R1.09', 'Eco durable', 1, 'RESSOURCE'),
+(111, 'R1.10', 'Anglais Technique', 1, 'RESSOURCE'), (112, 'R1.11', 'Communication', 1, 'RESSOURCE'),
+(113, 'R1.12', 'PPP', 1, 'RESSOURCE'), (114, 'R1.00', 'APP 0', 1, 'RESSOURCE'),
+(115, 'S1.01', 'Implémentation besoin', 1, 'SAE'), (116, 'S1.02', 'Comparaison algo', 1, 'SAE'),
+(117, 'S1.03', 'Installation poste', 1, 'SAE'), (118, 'S1.04', 'Création BD', 1, 'SAE'),
+(119, 'S1.05', 'Recueil besoins', 1, 'SAE'), (120, 'S1.06', 'Projet Com Web', 1, 'SAE'),
+-- Semestre 2
+(201, 'R2.01', 'Dev objets', 2, 'RESSOURCE'), (202, 'R2.02', 'Dev IHM', 2, 'RESSOURCE'),
+(203, 'R2.03', 'Qualité dev', 2, 'RESSOURCE'), (204, 'R2.04', 'Com bas niveau', 2, 'RESSOURCE'),
+(205, 'R2.05', 'Services réseaux', 2, 'RESSOURCE'), (206, 'R2.06', 'Exploitation BD', 2, 'RESSOURCE'),
+(207, 'R2.07', 'Graphes', 2, 'RESSOURCE'), (208, 'R2.08', 'Stats', 2, 'RESSOURCE'),
+(209, 'R2.09', 'Méthodes numériques', 2, 'RESSOURCE'), (210, 'R2.10', 'Gestion projet', 2, 'RESSOURCE'),
+(211, 'R2.11', 'Droit', 2, 'RESSOURCE'), (212, 'R2.12', 'Anglais', 2, 'RESSOURCE'),
+(213, 'R2.13', 'Communication', 2, 'RESSOURCE'), (214, 'R2.14', 'PPP', 2, 'RESSOURCE'),
+(215, 'SAE 2.01', 'Projet transverse', 2, 'SAE'), (216, 'SAE 2.04', 'BD', 2, 'SAE'),
+(217, 'SAE 2.03', 'Réseaux', 2, 'SAE'), (218, 'PORTFOLIO', 'Portfolio', 2, 'SAE'),
+-- Semestre 3
+(301, 'R3.01', 'Dev web', 3, 'RESSOURCE'), (302, 'R3.02', 'Dev efficace', 3, 'RESSOURCE'),
+(303, 'R3.03', 'Analyse', 3, 'RESSOURCE'), (304, 'R3.04', 'Conception OO', 3, 'RESSOURCE'),
+(305, 'R3.05', 'Prog système', 3, 'RESSOURCE'), (306, 'R3.06', 'Archi Réseaux', 3, 'RESSOURCE'),
+(307, 'R3.07', 'SQL et prog', 3, 'RESSOURCE'), (308, 'R3.08', 'Probabilités', 3, 'RESSOURCE'),
+(309, 'R3.09', 'Crypto/Algèbre', 3, 'RESSOURCE'), (310, 'R3.10', 'Management', 3, 'RESSOURCE'),
+(311, 'R3.11', 'Droit', 3, 'RESSOURCE'), (312, 'R3.12', 'Anglais', 3, 'RESSOURCE'),
+(313, 'R3.13', 'Communication', 3, 'RESSOURCE'), (314, 'R3.14', 'PPP', 3, 'RESSOURCE'),
+(315, 'S3.01', 'Projet SAE S3', 3, 'SAE'),
+-- Semestre 4
+(401, 'R4.01', 'Archi log / Qualité', 4, 'RESSOURCE'), 
+(402, 'R4.03', 'Web sémantique', 4, 'RESSOURCE'),
+(403, 'R4.04', 'Optimisation', 4, 'RESSOURCE'), (404, 'R4.05', 'Anglais', 4, 'RESSOURCE'),
+(405, 'R4.06', 'Communication', 4, 'RESSOURCE'), (406, 'R4.07', 'PPP', 4, 'RESSOURCE'),
+(407, 'R4.09', 'Management SI', 4, 'RESSOURCE'), (408, 'R4.10', 'Complément Web', 4, 'RESSOURCE'),
+(409, 'R4.11', 'Dev Mobile', 4, 'RESSOURCE'), (410, 'R4.12', 'Automates', 4, 'RESSOURCE'),
+(411, 'S4.01', 'Projet SAE S4', 4, 'SAE'), (412, 'STAGE', 'Stage S4', 4, 'STAGE');
+
+-- ------------------------------------------------------------
+-- 3. GROUPES (IDs fixes pour garantir la cohérence avec ETUDIANT)
+-- ------------------------------------------------------------
+INSERT INTO GROUPE (id_groupe, semestre, lettre, nom_groupe, annee_scolaire, effectif_max, id_parcours) VALUES
+-- Tronc Commun S1 (P_GEN) : IDs 1-4
+(1, 1, 'A', '1A', '2024-2025', 18, 'P_GEN'),
+(2, 1, 'B', '1B', '2024-2025', 18, 'P_GEN'),
+(3, 1, 'C', '1C', '2024-2025', 18, 'P_GEN'),
+(4, 1, 'D', '1D', '2024-2025', 18, 'P_GEN'),
+
+-- Tronc Commun S2 (P_GEN) : IDs 5-8
+(5, 2, 'A', '2A', '2024-2025', 18, 'P_GEN'),
+(6, 2, 'B', '2B', '2024-2025', 18, 'P_GEN'),
+(7, 2, 'C', '2C', '2024-2025', 18, 'P_GEN'),
+(8, 2, 'D', '2D', '2024-2025', 18, 'P_GEN'),
+
+-- Tronc Commun S3 (P_GEN) : IDs 9-12
+(9, 3, 'A', '3A', '2024-2025', 18, 'P_GEN'),
+(10, 3, 'B', '3B', '2024-2025', 18, 'P_GEN'),
+(11, 3, 'C', '3C', '2024-2025', 18, 'P_GEN'),
+(12, 3, 'D', '3D', '2024-2025', 18, 'P_GEN'),
+
+-- Parcours A S4 : IDs 13-14
+(13, 4, 'A', '4A', '2024-2025', 18, 'P_A'),
+(14, 4, 'B', '4B', '2024-2025', 18, 'P_A'),
+
+-- Parcours B S4 : IDs 15-16
+(15, 4, 'A', '4A', '2024-2025', 18, 'P_B'),
+(16, 4, 'B', '4B', '2024-2025', 18, 'P_B'),
+
+-- Parcours C S4 : IDs 17-18
+(17, 4, 'A', '4A', '2024-2025', 18, 'P_C'),
+(18, 4, 'B', '4B', '2024-2025', 18, 'P_C');
+
+-- ------------------------------------------------------------
+-- 4. PERSONNEL (ENSEIGNANTS) - Comptes de démonstration
+-- ------------------------------------------------------------
+-- COMPTES DE DEMO :
+-- | Rôle                  | Login     | Mot de passe |
+-- |-----------------------|-----------|--------------|
+-- | Responsable Formation | respform  | respform     |
+-- | Responsable Filière   | respfil   | respfil      |
+-- | Enseignant            | prof      | prof         |
+
+INSERT INTO UTILISATEUR (id_utilisateur, prenom_utilisateur, nom_utilisateur, mail_utilisateur, login_utilisateur, mdp_hash_utilisateur, statut_utilisateur) VALUES
+(1, 'Pierre', 'Durand', 'pierre.durand@univ.fr', 'respform', 'respform', 'ENSEIGNANT'),
+(2, 'Marie', 'Martin', 'marie.martin@univ.fr', 'respfil', 'respfil', 'ENSEIGNANT'),
+(3, 'Jean', 'Dupont', 'jean.dupont@univ.fr', 'prof', 'prof', 'ENSEIGNANT');
+
+-- Liaison Enseignant avec les rôles
+INSERT INTO ENSEIGNANT (id_enseignant, id_role, id_utilisateur) VALUES
+(1, 'RESP_FORM', 1),
+(2, 'RESP_PED', 2),
+(3, 'ENS', 3);
+
+-- ------------------------------------------------------------
+-- 5. ETUDIANTS (MASSE)
+-- ------------------------------------------------------------
+
+-- A. CRÉATION DES COMPTES UTILISATEUR (IDs vont de 3 à ~206)
+-- On met NULL partout pour l'ID, MySQL gère l'incrémentation.
+-- ============================================================
+-- 5.A CREATION DES COMPTES UTILISATEURS (100 Étudiants)
+-- ============================================================
+
+INSERT INTO UTILISATEUR (id_utilisateur, prenom_utilisateur, nom_utilisateur, mail_utilisateur, login_utilisateur, mdp_hash_utilisateur, statut_utilisateur) VALUES
+-- --- [BUT 1 - TRONC COMMUN] (50 Étudiants : IDs 4 à 53) ---
+-- Premier étudiant avec login/mdp simple pour démo
+(NULL, 'Lucas', 'Martin', 'lucas.martin@etu.univ.fr', 'etudiant', 'etudiant', 'ETUDIANT'),
+(NULL, 'Emma', 'Bernard', 'emma.bernard@etu.univ.fr', 'ebernard', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Hugo', 'Thomas', 'hugo.thomas@etu.univ.fr', 'hthomas', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Jade', 'Petit', 'jade.petit@etu.univ.fr', 'jpetit', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Leo', 'Robert', 'leo.robert@etu.univ.fr', 'lrobert', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Chloe', 'Richard', 'chloe.richard@etu.univ.fr', 'crichard', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Louis', 'Durand', 'louis.durand@etu.univ.fr', 'ldurand', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Mia', 'Dubois', 'mia.dubois@etu.univ.fr', 'mdubois', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Gabriel', 'Moreau', 'gabriel.moreau@etu.univ.fr', 'gmoreau', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Lina', 'Laurent', 'lina.laurent@etu.univ.fr', 'llaurent', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Jules', 'Simon', 'jules.simon@etu.univ.fr', 'jsimon', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Lea', 'Michel', 'lea.michel@etu.univ.fr', 'lmichel', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Adam', 'Lefebvre', 'adam.lefebvre@etu.univ.fr', 'alefebvre', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Manon', 'Leroy', 'manon.leroy@etu.univ.fr', 'mleroy', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Arthur', 'Roux', 'arthur.roux@etu.univ.fr', 'aroux', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Ines', 'David', 'ines.david@etu.univ.fr', 'idavid', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Nathan', 'Bertrand', 'nathan.bertrand@etu.univ.fr', 'nbertrand', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Zoe', 'Morel', 'zoe.morel@etu.univ.fr', 'zmorel', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Paul', 'Fournier', 'paul.fournier@etu.univ.fr', 'pfournier', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Camille', 'Girard', 'camille.girard@etu.univ.fr', 'cgirard', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Theo', 'Bonnet', 'theo.bonnet@etu.univ.fr', 'tbonnet', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Lola', 'Dupont', 'lola.dupont@etu.univ.fr', 'ldupont', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Sacha', 'Lambert', 'sacha.lambert@etu.univ.fr', 'slambert', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Eva', 'Fontaine', 'eva.fontaine@etu.univ.fr', 'efontaine', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Tom', 'Rousseau', 'tom.rousseau@etu.univ.fr', 'trousseau', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Agathe', 'Vincent', 'agathe.vincent@etu.univ.fr', 'avincent', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Gabin', 'Muller', 'gabin.muller@etu.univ.fr', 'gmuller', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Romane', 'Lefevre', 'romane.lefevre@etu.univ.fr', 'rlefevre', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Mael', 'Faure', 'mael.faure@etu.univ.fr', 'mfaure', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Julia', 'Andre', 'julia.andre@etu.univ.fr', 'jandre', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Mathis', 'Mercier', 'mathis.mercier@etu.univ.fr', 'mmercier', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Lou', 'Blanc', 'lou.blanc@etu.univ.fr', 'lblanc', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Evan', 'Guerin', 'evan.guerin@etu.univ.fr', 'eguerin', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Sarah', 'Boyer', 'sarah.boyer@etu.univ.fr', 'sboyer', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Enzo', 'Garnier', 'enzo.garnier@etu.univ.fr', 'egarnier', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Charlotte', 'Chevalier', 'charlotte.chevalier@etu.univ.fr', 'cchevalier', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Valentin', 'Francois', 'valentin.francois@etu.univ.fr', 'vfrancois', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Juliette', 'Legrand', 'juliette.legrand@etu.univ.fr', 'jlegrand', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Antoine', 'Gauthier', 'antoine.gauthier@etu.univ.fr', 'agauthier', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Anna', 'Garcia', 'anna.garcia@etu.univ.fr', 'agarcia', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Axel', 'Perrin', 'axel.perrin@etu.univ.fr', 'aperrin', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Alice', 'Robin', 'alice.robin@etu.univ.fr', 'arobin', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Robin', 'Clement', 'robin.clement@etu.univ.fr', 'rclement', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Margaux', 'Morin', 'margaux.morin@etu.univ.fr', 'mmorin', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Maxime', 'Nicolas', 'maxime.nicolas@etu.univ.fr', 'mnicolas', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Lisa', 'Henry', 'lisa.henry@etu.univ.fr', 'lhenry', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Clement', 'Roussel', 'clement.roussel@etu.univ.fr', 'croussel', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Clara', 'Mathieu', 'clara.mathieu@etu.univ.fr', 'cmathieu', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Baptiste', 'Masson', 'baptiste.masson@etu.univ.fr', 'bmasson', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Ambre', 'Marchand', 'ambre.marchand@etu.univ.fr', 'amarchand', 'hash_etu', 'ETUDIANT'),
+
+-- --- [BUT 2 - PARCOURS A] (17 Étudiants : IDs 54 à 70) ---
+(NULL, 'Corentin', 'Dumont', 'corentin.dumont@etu.univ.fr', 'cdumont', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Juliette', 'Marie', 'juliette.marie@etu.univ.fr', 'jmarie', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Zoe', 'Lemaire', 'zoe.lemaire@etu.univ.fr', 'zlemaire', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Louise', 'Noel', 'louise.noel@etu.univ.fr', 'lnoel', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Mia', 'Meyer', 'mia.meyer@etu.univ.fr', 'mmeyer', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Lina', 'Dufour', 'lina.dufour@etu.univ.fr', 'ldufour', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Eva', 'Valentin', 'eva.valentin@etu.univ.fr', 'evalentin', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Charlotte', 'Riviere', 'charlotte.riviere@etu.univ.fr', 'criviere', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Ambre', 'Renard', 'ambre.renard@etu.univ.fr', 'arenard', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Rose', 'Schmitt', 'rose.schmitt@etu.univ.fr', 'rschmitt', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Anna', 'Leclerc', 'anna.leclerc@etu.univ.fr', 'aleclerc', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Mila', 'Lecomte', 'mila.lecomte@etu.univ.fr', 'mlecomte', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Julia', 'Lopez', 'julia.lopez@etu.univ.fr', 'jlopez', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Romy', 'Picard', 'romy.picard@etu.univ.fr', 'rpicard', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Lou', 'Girard', 'lou.girard@etu.univ.fr', 'lgirard', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Margaux', 'Colin', 'margaux.colin@etu.univ.fr', 'mcolin', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Lisa', 'Caron', 'lisa.caron@etu.univ.fr', 'lcaron', 'hash_etu', 'ETUDIANT'),
+
+-- --- [BUT 2 - PARCOURS B] (17 Étudiants : IDs 71 à 87) ---
+(NULL, 'Agathe', 'Vidal', 'agathe.vidal@etu.univ.fr', 'avidal', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Elise', 'Lemoine', 'elise.lemoine@etu.univ.fr', 'elemoine', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Jeanne', 'Pichon', 'jeanne.pichon@etu.univ.fr', 'jpichon', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Solene', 'Guillot', 'solene.guillot@etu.univ.fr', 'sguillot', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Alexandre', 'Fleury', 'alexandre.fleury@etu.univ.fr', 'afleury', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Bastien', 'Mace', 'bastien.mace@etu.univ.fr', 'bmace', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Damien', 'Prevost', 'damien.prevost@etu.univ.fr', 'dprevost', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Dorian', 'Renault', 'dorian.renault@etu.univ.fr', 'drenault', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Benjamin', 'Charpentier', 'benjamin.charpentier@etu.univ.fr', 'bcharpentier', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Florian', 'Rolland', 'florian.rolland@etu.univ.fr', 'frolland', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Jeremy', 'Menard', 'jeremy.menard@etu.univ.fr', 'jmenard', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Matthieu', 'Barre', 'matthieu.barre@etu.univ.fr', 'mbarre', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Nicolas', 'Royer', 'nicolas.royer@etu.univ.fr', 'nroyer', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Quentin', 'Dupuy', 'quentin.dupuy@etu.univ.fr', 'qdupuy', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Samuel', 'Poulain', 'samuel.poulain@etu.univ.fr', 'spoulain', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Simon', 'Hamon', 'simon.hamon@etu.univ.fr', 'shamon', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Tristan', 'Pelletier', 'tristan.pelletier@etu.univ.fr', 'tpelletier', 'hash_etu', 'ETUDIANT'),
+
+-- --- [BUT 2 - PARCOURS C] (16 Étudiants : IDs 88 à 103) ---
+(NULL, 'Victor', 'Marty', 'victor.marty@etu.univ.fr', 'vmarty', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Vincent', 'Perrot', 'vincent.perrot@etu.univ.fr', 'vperrot', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Xavier', 'Gomes', 'xavier.gomes@etu.univ.fr', 'xgomes', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Yoann', 'Dos Santos', 'yoann.dossantos@etu.univ.fr', 'ydossantos', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Audrey', 'Bouvier', 'audrey.bouvier@etu.univ.fr', 'abouvier', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Claire', 'Marchal', 'claire.marchal@etu.univ.fr', 'cmarchal', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Elodie', 'Poirier', 'elodie.poirier@etu.univ.fr', 'epoirier', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Fanny', 'Vallee', 'fanny.vallee@etu.univ.fr', 'fvallee', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Helene', 'Caron', 'helene.caron@etu.univ.fr', 'hcaron', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Julie', 'Maillard', 'julie.maillard@etu.univ.fr', 'jmaillard', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Laura', 'Barbier', 'laura.barbier@etu.univ.fr', 'lbarbier', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Lucie', 'Brun', 'lucie.brun@etu.univ.fr', 'lbrun', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Marion', 'Guillaume', 'marion.guillaume@etu.univ.fr', 'mguillaume', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Melanie', 'Blanchard', 'melanie.blanchard@etu.univ.fr', 'mblanchard', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Morgane', 'Moulin', 'morgane.moulin@etu.univ.fr', 'mmoulin', 'hash_etu', 'ETUDIANT'),
+(NULL, 'Oceane', 'Deschamps', 'oceane.deschamps@etu.univ.fr', 'odeschamps', 'hash_etu', 'ETUDIANT');
+
+
+INSERT INTO ETUDIANT (id_etudiant, id_utilisateur, id_groupe, id_parcours, id_type, id_mention, est_apprenti) VALUES
+-- --- BUT 1 / S1 (P_GEN) : 50 Etudiants répartis dans groupes 1-4 (1A, 1B, 1C, 1D) ---
+-- Groupe 1A (13 étudiants)
+(NULL, 4, 1, 'P_GEN', 'GEN', 'B', 0), (NULL, 5, 1, 'P_GEN', 'GEN', 'TB', 0),
+(NULL, 6, 1, 'P_GEN', 'TECH', 'AB', 0), (NULL, 7, 1, 'P_GEN', 'GEN', 'AB', 0),
+(NULL, 8, 1, 'P_GEN', 'GEN', 'B', 0), (NULL, 9, 1, 'P_GEN', 'TECH', 'TB', 0),
+(NULL, 10, 1, 'P_GEN', 'GEN', 'PASS', 0), (NULL, 11, 1, 'P_GEN', 'GEN', 'B', 0),
+(NULL, 12, 1, 'P_GEN', 'PRO', 'TB', 0), (NULL, 13, 1, 'P_GEN', 'GEN', 'AB', 0),
+(NULL, 14, 1, 'P_GEN', 'GEN', 'B', 0), (NULL, 15, 1, 'P_GEN', 'TECH', 'AB', 0),
+(NULL, 16, 1, 'P_GEN', 'GEN', 'TB', 0),
+-- Groupe 1B (13 étudiants)
+(NULL, 17, 2, 'P_GEN', 'GEN', 'B', 0), (NULL, 18, 2, 'P_GEN', 'TECH', 'AB', 0),
+(NULL, 19, 2, 'P_GEN', 'GEN', 'B', 0), (NULL, 20, 2, 'P_GEN', 'GEN', 'AB', 0),
+(NULL, 21, 2, 'P_GEN', 'PRO', 'TB', 0), (NULL, 22, 2, 'P_GEN', 'GEN', 'B', 0),
+(NULL, 23, 2, 'P_GEN', 'GEN', 'TB', 0), (NULL, 24, 2, 'P_GEN', 'GEN', 'AB', 0),
+(NULL, 25, 2, 'P_GEN', 'GEN', 'AB', 0), (NULL, 26, 2, 'P_GEN', 'TECH', 'B', 0),
+(NULL, 27, 2, 'P_GEN', 'GEN', 'TB', 0), (NULL, 28, 2, 'P_GEN', 'GEN', 'B', 0),
+(NULL, 29, 2, 'P_GEN', 'GEN', 'AB', 0),
+-- Groupe 1C (12 étudiants)
+(NULL, 30, 3, 'P_GEN', 'PRO', 'B', 0), (NULL, 31, 3, 'P_GEN', 'GEN', 'TB', 0),
+(NULL, 32, 3, 'P_GEN', 'GEN', 'AB', 0), (NULL, 33, 3, 'P_GEN', 'TECH', 'B', 0),
+(NULL, 34, 3, 'P_GEN', 'GEN', 'TB', 0), (NULL, 35, 3, 'P_GEN', 'GEN', 'B', 0),
+(NULL, 36, 3, 'P_GEN', 'GEN', 'AB', 0), (NULL, 37, 3, 'P_GEN', 'GEN', 'AB', 0),
+(NULL, 38, 3, 'P_GEN', 'TECH', 'B', 0), (NULL, 39, 3, 'P_GEN', 'GEN', 'TB', 0),
+(NULL, 40, 3, 'P_GEN', 'GEN', 'B', 0), (NULL, 41, 3, 'P_GEN', 'GEN', 'AB', 0),
+-- Groupe 1D (12 étudiants)
+(NULL, 42, 4, 'P_GEN', 'PRO', 'B', 0), (NULL, 43, 4, 'P_GEN', 'GEN', 'TB', 0),
+(NULL, 44, 4, 'P_GEN', 'GEN', 'AB', 0), (NULL, 45, 4, 'P_GEN', 'TECH', 'B', 0),
+(NULL, 46, 4, 'P_GEN', 'GEN', 'TB', 0), (NULL, 47, 4, 'P_GEN', 'GEN', 'B', 0),
+(NULL, 48, 4, 'P_GEN', 'GEN', 'AB', 0), (NULL, 49, 4, 'P_GEN', 'GEN', 'AB', 0),
+(NULL, 50, 4, 'P_GEN', 'TECH', 'B', 0), (NULL, 51, 4, 'P_GEN', 'GEN', 'TB', 0),
+(NULL, 52, 4, 'P_GEN', 'GEN', 'B', 0), (NULL, 53, 4, 'P_GEN', 'GEN', 'AB', 0),
+
+-- --- BUT 2 / S4 (PARCOURS A) : 17 Etudiants répartis dans groupes 13-14 (4A, 4B) ---
+-- Groupe 4A Parcours A (9 étudiants)
+(NULL, 54, 13, 'P_A', 'GEN', 'B', 0), (NULL, 55, 13, 'P_A', 'TECH', 'TB', 1),
+(NULL, 56, 13, 'P_A', 'GEN', 'AB', 0), (NULL, 57, 13, 'P_A', 'PRO', 'B', 1),
+(NULL, 58, 13, 'P_A', 'GEN', 'TB', 0), (NULL, 59, 13, 'P_A', 'TECH', 'AB', 1),
+(NULL, 60, 13, 'P_A', 'GEN', 'B', 0), (NULL, 61, 13, 'P_A', 'GEN', 'TB', 1),
+(NULL, 62, 13, 'P_A', 'TECH', 'AB', 0),
+-- Groupe 4B Parcours A (8 étudiants)
+(NULL, 63, 14, 'P_A', 'GEN', 'B', 1), (NULL, 64, 14, 'P_A', 'PRO', 'B', 0),
+(NULL, 65, 14, 'P_A', 'GEN', 'AB', 1), (NULL, 66, 14, 'P_A', 'GEN', 'TB', 0),
+(NULL, 67, 14, 'P_A', 'TECH', 'B', 1), (NULL, 68, 14, 'P_A', 'GEN', 'AB', 0),
+(NULL, 69, 14, 'P_A', 'GEN', 'TB', 1), (NULL, 70, 14, 'P_A', 'TECH', 'B', 0),
+
+-- --- BUT 2 / S4 (PARCOURS B) : 17 Etudiants répartis dans groupes 15-16 (4A, 4B) ---
+-- Groupe 4A Parcours B (9 étudiants)
+(NULL, 71, 15, 'P_B', 'GEN', 'AB', 1), (NULL, 72, 15, 'P_B', 'PRO', 'TB', 0),
+(NULL, 73, 15, 'P_B', 'GEN', 'B', 1), (NULL, 74, 15, 'P_B', 'GEN', 'TB', 1),
+(NULL, 75, 15, 'P_B', 'TECH', 'B', 0), (NULL, 76, 15, 'P_B', 'GEN', 'AB', 1),
+(NULL, 77, 15, 'P_B', 'PRO', 'TB', 0), (NULL, 78, 15, 'P_B', 'GEN', 'B', 1),
+(NULL, 79, 15, 'P_B', 'TECH', 'AB', 0),
+-- Groupe 4B Parcours B (8 étudiants)
+(NULL, 80, 16, 'P_B', 'GEN', 'TB', 1), (NULL, 81, 16, 'P_B', 'GEN', 'B', 0),
+(NULL, 82, 16, 'P_B', 'TECH', 'AB', 1), (NULL, 83, 16, 'P_B', 'GEN', 'B', 0),
+(NULL, 84, 16, 'P_B', 'PRO', 'TB', 1), (NULL, 85, 16, 'P_B', 'GEN', 'AB', 0),
+(NULL, 86, 16, 'P_B', 'GEN', 'B', 1), (NULL, 87, 16, 'P_B', 'TECH', 'TB', 0),
+
+-- --- BUT 2 / S4 (PARCOURS C) : 16 Etudiants répartis dans groupes 17-18 (4A, 4B) ---
+-- Groupe 4A Parcours C (8 étudiants)
+(NULL, 88, 17, 'P_C', 'GEN', 'AB', 1), (NULL, 89, 17, 'P_C', 'GEN', 'B', 0),
+(NULL, 90, 17, 'P_C', 'TECH', 'TB', 1), (NULL, 91, 17, 'P_C', 'GEN', 'AB', 0),
+(NULL, 92, 17, 'P_C', 'PRO', 'B', 1), (NULL, 93, 17, 'P_C', 'GEN', 'TB', 0),
+(NULL, 94, 17, 'P_C', 'GEN', 'B', 0), (NULL, 95, 17, 'P_C', 'TECH', 'TB', 1),
+-- Groupe 4B Parcours C (8 étudiants)
+(NULL, 96, 18, 'P_C', 'GEN', 'AB', 0), (NULL, 97, 18, 'P_C', 'PRO', 'B', 1),
+(NULL, 98, 18, 'P_C', 'GEN', 'TB', 0), (NULL, 99, 18, 'P_C', 'TECH', 'AB', 1),
+(NULL, 100, 18, 'P_C', 'GEN', 'B', 0), (NULL, 101, 18, 'P_C', 'GEN', 'TB', 1),
+(NULL, 102, 18, 'P_C', 'TECH', 'AB', 0), (NULL, 103, 18, 'P_C', 'GEN', 'B', 1);

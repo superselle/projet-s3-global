@@ -1,0 +1,8 @@
+# On force le calcul du Java et du PHP
+java-desktop-app/**/*.java linguist-detectable=true
+web-api/**/*.php linguist-detectable=true
+algo-playground/**/*.java linguist-detectable=true
+
+# On ignore les fichiers de documentation générés ou lourds
+rendus-officiels/*.pdf linguist-documentation
+web-api/info-bd/*.txt linguist-documentation

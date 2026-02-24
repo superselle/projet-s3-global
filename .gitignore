@@ -1,0 +1,50 @@
+# ==========================================
+# Java - Compilation et Binaires
+# ==========================================
+*.class
+**/bin/
+*.jar
+*.war
+*.ear
+
+# ==========================================
+# IDE - Configuration (Eclipse, IntelliJ, VS Code)
+# ==========================================
+.metadata/
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+.vscode/
+
+# ==========================================
+# PHP / Web
+# ==========================================
+# Ignorer les dépendances si tu utilises Composer plus tard
+vendor/
+.env
+
+# Ignorer les fichiers de session ou de logs
+*.log
+
+# DONNÉES SENSIBLES
+web-api/config/connexion.php
+
+# ==========================================
+# Base de données et fichiers de travail
+# ==========================================
+# On ignore les CSV d'identifiants (souvent confidentiels)
+web-api/info-bd/identifiants_utilisateurs.csv
+
+# Fichiers temporaires de Visual Paradigm
+*.vpp.lck
+
+# ==========================================
+# Système et divers
+# ==========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.bak

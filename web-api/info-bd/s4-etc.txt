@@ -1,0 +1,213 @@
+-- ============================================================
+-- SCRIPT D'AJOUT : 100 ÉTUDIANTS S4 (SPÉCIALISÉS)
+-- IDs UTILISATEURS : 111 à 210
+-- ============================================================
+
+-- 1. CRÉATION DES COMPTES UTILISATEURS (100 Nouveaux)
+-- Date de naissance adaptée (~2003-2004 car ils sont plus âgés que les S1)
+INSERT INTO UTILISATEUR (id_utilisateur, prenom_utilisateur, nom_utilisateur, mail_utilisateur, tel_utilisateur, adresse_utilisateur, genre_utilisateur, date_naissance, login_utilisateur, mdp_hash_utilisateur, statut_utilisateur) VALUES
+
+-- --- [PARCOURS A : Réalisation d'applications] (34 Étudiants : IDs 111 à 144) ---
+(NULL, 'Hugo', 'Vasseur', 'hugo.vasseur@etu.univ.fr', '0701010101', '101 Rue Java', 'Homme', '2003-05-10', 'hvasseur', 'etu456', 'ETUDIANT'),
+(NULL, 'Camille', 'Boucher', 'camille.boucher@etu.univ.fr', '0701010102', '102 Rue C++', 'Femme', '2003-06-12', 'cboucher', 'etu456', 'ETUDIANT'),
+(NULL, 'Theo', 'Caron', 'theo.caron@etu.univ.fr', '0701010103', '103 Rue Web', 'Homme', '2003-07-14', 'tcaron', 'etu456', 'ETUDIANT'),
+(NULL, 'Lea', 'Picard', 'lea.picard@etu.univ.fr', '0701010104', '104 Rue PHP', 'Femme', '2003-08-16', 'lpicard', 'etu456', 'ETUDIANT'),
+(NULL, 'Nathan', 'Colin', 'nathan.colin@etu.univ.fr', '0701010105', '105 Rue SQL', 'Homme', '2003-09-18', 'ncolin', 'etu456', 'ETUDIANT'),
+(NULL, 'Manon', 'Guillot', 'manon.guillot@etu.univ.fr', '0701010106', '106 Rue Git', 'Femme', '2003-10-20', 'mguillot', 'etu456', 'ETUDIANT'),
+(NULL, 'Lucas', 'Rivière', 'lucas.riviere@etu.univ.fr', '0701010107', '107 Rue App', 'Homme', '2003-11-22', 'lriviere', 'etu456', 'ETUDIANT'),
+(NULL, 'Chloe', 'Philippe', 'chloe.philippe@etu.univ.fr', '0701010108', '108 Rue Dev', 'Femme', '2003-12-24', 'cphilippe', 'etu456', 'ETUDIANT'),
+(NULL, 'Enzo', 'Leclercq', 'enzo.leclercq@etu.univ.fr', '0701010109', '109 Rue Code', 'Homme', '2004-01-26', 'eleclercq', 'etu456', 'ETUDIANT'),
+(NULL, 'Jade', 'Adam', 'jade.adam@etu.univ.fr', '0701010110', '110 Rue Bug', 'Femme', '2004-02-28', 'jadam', 'etu456', 'ETUDIANT'),
+(NULL, 'Louis', 'Renard', 'louis.renard@etu.univ.fr', '0701010111', '111 Rue Byte', 'Homme', '2004-03-01', 'lrenard', 'etu456', 'ETUDIANT'),
+(NULL, 'Lola', 'Gaillard', 'lola.gaillard@etu.univ.fr', '0701010112', '112 Rue Bit', 'Femme', '2004-04-03', 'lgaillard', 'etu456', 'ETUDIANT'),
+(NULL, 'Gabriel', 'Barbier', 'gabriel.barbier@etu.univ.fr', '0701010113', '113 Rue Ram', 'Homme', '2004-05-05', 'gbarbier', 'etu456', 'ETUDIANT'),
+(NULL, 'Ines', 'Brun', 'ines.brun@etu.univ.fr', '0701010114', '114 Rue Cpu', 'Femme', '2004-06-07', 'ibrun', 'etu456', 'ETUDIANT'),
+(NULL, 'Adam', 'Maillot', 'adam.maillot@etu.univ.fr', '0701010115', '115 Rue Gpu', 'Homme', '2004-07-09', 'amaillot', 'etu456', 'ETUDIANT'),
+(NULL, 'Sarah', 'Poulain', 'sarah.poulain@etu.univ.fr', '0701010116', '116 Rue Fan', 'Femme', '2004-08-11', 'spoulain', 'etu456', 'ETUDIANT'),
+(NULL, 'Paul', 'Texier', 'paul.texier@etu.univ.fr', '0701010117', '117 Rue Led', 'Homme', '2004-09-13', 'ptexier', 'etu456', 'ETUDIANT'),
+(NULL, 'Eva', 'Gros', 'eva.gros@etu.univ.fr', '0701010118', '118 Rue Ssd', 'Femme', '2004-10-15', 'egros', 'etu456', 'ETUDIANT'),
+(NULL, 'Arthur', 'Hamel', 'arthur.hamel@etu.univ.fr', '0701010119', '119 Rue Hdd', 'Homme', '2004-11-17', 'ahamel', 'etu456', 'ETUDIANT'),
+(NULL, 'Zoe', 'Lebrun', 'zoe.lebrun@etu.univ.fr', '0701010120', '120 Rue Bios', 'Femme', '2004-12-19', 'zlebrun', 'etu456', 'ETUDIANT'),
+(NULL, 'Raphael', 'Peltier', 'raphael.peltier@etu.univ.fr', '0701010121', '121 Rue Os', 'Homme', '2003-01-21', 'rpeltier', 'etu456', 'ETUDIANT'),
+(NULL, 'Romane', 'Besnard', 'romane.besnard@etu.univ.fr', '0701010122', '122 Rue Win', 'Femme', '2003-02-23', 'rbesnard', 'etu456', 'ETUDIANT'),
+(NULL, 'Jules', 'Guichard', 'jules.guichard@etu.univ.fr', '0701010123', '123 Rue Mac', 'Homme', '2003-03-25', 'jguichard', 'etu456', 'ETUDIANT'),
+(NULL, 'Charlotte', 'Voisin', 'charlotte.voisin@etu.univ.fr', '0701010124', '124 Rue Tux', 'Femme', '2003-04-27', 'cvoisin', 'etu456', 'ETUDIANT'),
+(NULL, 'Tom', 'Bichon', 'tom.bichon@etu.univ.fr', '0701010125', '125 Rue Vim', 'Homme', '2003-05-29', 'tbichon', 'etu456', 'ETUDIANT'),
+(NULL, 'Alice', 'Coste', 'alice.coste@etu.univ.fr', '0701010126', '126 Rue Nano', 'Femme', '2003-06-01', 'acoste', 'etu456', 'ETUDIANT'),
+(NULL, 'Matheo', 'Gillet', 'matheo.gillet@etu.univ.fr', '0701010127', '127 Rue Bash', 'Homme', '2003-07-03', 'mgillet', 'etu456', 'ETUDIANT'),
+(NULL, 'Juliette', 'Lamy', 'juliette.lamy@etu.univ.fr', '0701010128', '128 Rue Shell', 'Femme', '2003-08-05', 'jlamy', 'etu456', 'ETUDIANT'),
+(NULL, 'Clement', 'Tessier', 'clement.tessier@etu.univ.fr', '0701010129', '129 Rue Perl', 'Homme', '2003-09-07', 'ctessier', 'etu456', 'ETUDIANT'),
+(NULL, 'Louna', 'Leger', 'louna.leger@etu.univ.fr', '0701010130', '130 Rue Ruby', 'Femme', '2003-10-09', 'lleger', 'etu456', 'ETUDIANT'),
+(NULL, 'Mael', 'Delmas', 'mael.delmas@etu.univ.fr', '0701010131', '131 Rue Rust', 'Homme', '2003-11-11', 'mdelmas', 'etu456', 'ETUDIANT'),
+(NULL, 'Lisa', 'Imbert', 'lisa.imbert@etu.univ.fr', '0701010132', '132 Rue Go', 'Femme', '2003-12-13', 'limbert', 'etu456', 'ETUDIANT'),
+(NULL, 'Noah', 'Langlois', 'noah.langlois@etu.univ.fr', '0701010133', '133 Rue Swift', 'Homme', '2004-01-15', 'nlanglois', 'etu456', 'ETUDIANT'),
+(NULL, 'Ambre', 'Marques', 'ambre.marques@etu.univ.fr', '0701010134', '134 Rue Kotlin', 'Femme', '2004-02-17', 'amarques', 'etu456', 'ETUDIANT'),
+
+-- --- [PARCOURS B : Déploiement & Sécu] (33 Étudiants : IDs 145 à 177) ---
+(NULL, 'Sacha', 'Chauvin', 'sacha.chauvin@etu.univ.fr', '0702020201', '201 Rue IP', 'Homme', '2003-03-10', 'schauvin', 'etu456', 'ETUDIANT'),
+(NULL, 'Lou', 'Thibault', 'lou.thibault@etu.univ.fr', '0702020202', '202 Rue TCP', 'Femme', '2003-04-12', 'lthibault', 'etu456', 'ETUDIANT'),
+(NULL, 'Gabin', 'Lesage', 'gabin.lesage@etu.univ.fr', '0702020203', '203 Rue UDP', 'Homme', '2003-05-14', 'glesage', 'etu456', 'ETUDIANT'),
+(NULL, 'Julia', 'Verdier', 'julia.verdier@etu.univ.fr', '0702020204', '204 Rue DNS', 'Femme', '2003-06-16', 'jverdier', 'etu456', 'ETUDIANT'),
+(NULL, 'Ethan', 'Bouchet', 'ethan.bouchet@etu.univ.fr', '0702020205', '205 Rue DHCP', 'Homme', '2003-07-18', 'ebouchet', 'etu456', 'ETUDIANT'),
+(NULL, 'Agathe', 'Marin', 'agathe.marin@etu.univ.fr', '0702020206', '206 Rue SSH', 'Femme', '2003-08-20', 'amarin', 'etu456', 'ETUDIANT'),
+(NULL, 'Antoine', 'Ferreira', 'antoine.ferreira@etu.univ.fr', '0702020207', '207 Rue VPN', 'Homme', '2003-09-22', 'aferreira', 'etu456', 'ETUDIANT'),
+(NULL, 'Jeanne', 'Lemoine', 'jeanne.lemoine@etu.univ.fr', '0702020208', '208 Rue LAN', 'Femme', '2003-10-24', 'jlemoine', 'etu456', 'ETUDIANT'),
+(NULL, 'Axel', 'Prevost', 'axel.prevost@etu.univ.fr', '0702020209', '209 Rue WAN', 'Homme', '2003-11-26', 'aprevost', 'etu456', 'ETUDIANT'),
+(NULL, 'Nina', 'Hebert', 'nina.hebert@etu.univ.fr', '0702020210', '210 Rue VLAN', 'Femme', '2003-12-28', 'nhebert', 'etu456', 'ETUDIANT'),
+(NULL, 'Valentin', 'Grenier', 'valentin.grenier@etu.univ.fr', '0702020211', '211 Rue Routeur', 'Homme', '2004-01-30', 'vgrenier', 'etu456', 'ETUDIANT'),
+(NULL, 'Elise', 'Germain', 'elise.germain@etu.univ.fr', '0702020212', '212 Rue Switch', 'Femme', '2004-02-02', 'egermain', 'etu456', 'ETUDIANT'),
+(NULL, 'Baptiste', 'Charrier', 'baptiste.charrier@etu.univ.fr', '0702020213', '213 Rue Hub', 'Homme', '2004-03-04', 'bcharrier', 'etu456', 'ETUDIANT'),
+(NULL, 'Mila', 'Louvet', 'mila.louvet@etu.univ.fr', '0702020214', '214 Rue Cable', 'Femme', '2004-04-06', 'mlouvet', 'etu456', 'ETUDIANT'),
+(NULL, 'Maxime', 'Auger', 'maxime.auger@etu.univ.fr', '0702020215', '215 Rue Fibre', 'Homme', '2004-05-08', 'mauger', 'etu456', 'ETUDIANT'),
+(NULL, 'Romy', 'Pires', 'romy.pires@etu.univ.fr', '0702020216', '216 Rue RJ45', 'Femme', '2004-06-10', 'rpires', 'etu456', 'ETUDIANT'),
+(NULL, 'Corentin', 'Navarro', 'corentin.navarro@etu.univ.fr', '0702020217', '217 Rue Wifi', 'Homme', '2004-07-12', 'cnavarro', 'etu456', 'ETUDIANT'),
+(NULL, 'Louise', 'Delage', 'louise.delage@etu.univ.fr', '0702020218', '218 Rue 4G', 'Femme', '2004-08-14', 'ldelage', 'etu456', 'ETUDIANT'),
+(NULL, 'Simon', 'Parent', 'simon.parent@etu.univ.fr', '0702020219', '219 Rue 5G', 'Homme', '2004-09-16', 'sparent', 'etu456', 'ETUDIANT'),
+(NULL, 'Lena', 'Maury', 'lena.maury@etu.univ.fr', '0702020220', '220 Rue Ping', 'Femme', '2004-10-18', 'lmaury', 'etu456', 'ETUDIANT'),
+(NULL, 'Tristan', 'Laroche', 'tristan.laroche@etu.univ.fr', '0702020221', '221 Rue Pong', 'Homme', '2004-11-20', 'tlaroche', 'etu456', 'ETUDIANT'),
+(NULL, 'Solene', 'Vallet', 'solene.vallet@etu.univ.fr', '0702020222', '222 Rue Trace', 'Femme', '2004-12-22', 'svallet', 'etu456', 'ETUDIANT'),
+(NULL, 'Robin', 'Barre', 'robin.barre@etu.univ.fr', '0702020223', '223 Rue Host', 'Homme', '2003-01-24', 'rbarre', 'etu456', 'ETUDIANT'),
+(NULL, 'Margot', 'Mendes', 'margot.mendes@etu.univ.fr', '0702020224', '224 Rue Serv', 'Femme', '2003-02-26', 'mmendes', 'etu456', 'ETUDIANT'),
+(NULL, 'Alexis', 'Pons', 'alexis.pons@etu.univ.fr', '0702020225', '225 Rue Client', 'Homme', '2003-03-28', 'apons', 'etu456', 'ETUDIANT'),
+(NULL, 'Oceane', 'Diallo', 'oceane.diallo@etu.univ.fr', '0702020226', '226 Rue Root', 'Femme', '2003-04-30', 'odiallo', 'etu456', 'ETUDIANT'),
+(NULL, 'Matthis', 'Pottier', 'matthis.pottier@etu.univ.fr', '0702020227', '227 Rue Sudo', 'Homme', '2003-05-02', 'mpottier', 'etu456', 'ETUDIANT'),
+(NULL, 'Capucine', 'Merle', 'capucine.merle@etu.univ.fr', '0702020228', '228 Rue User', 'Femme', '2003-06-04', 'cmerle', 'etu456', 'ETUDIANT'),
+(NULL, 'Kylian', 'Vallee', 'kylian.vallee@etu.univ.fr', '0702020229', '229 Rue Group', 'Homme', '2003-07-06', 'kvallee', 'etu456', 'ETUDIANT'),
+(NULL, 'Candice', 'Guyon', 'candice.guyon@etu.univ.fr', '0702020230', '230 Rue Perm', 'Femme', '2003-08-08', 'cguyon', 'etu456', 'ETUDIANT'),
+(NULL, 'Yanis', 'Maurice', 'yanis.maurice@etu.univ.fr', '0702020231', '231 Rue Chmod', 'Homme', '2003-09-10', 'ymaurice', 'etu456', 'ETUDIANT'),
+(NULL, 'Mathilde', 'Toussaint', 'mathilde.toussaint@etu.univ.fr', '0702020232', '232 Rue Chown', 'Femme', '2003-10-12', 'mtoussaint', 'etu456', 'ETUDIANT'),
+(NULL, 'Adrien', 'Baudry', 'adrien.baudry@etu.univ.fr', '0702020233', '233 Rue Grep', 'Homme', '2003-11-14', 'abaudry', 'etu456', 'ETUDIANT'),
+
+-- --- [PARCOURS C : Data & Admin] (33 Étudiants : IDs 178 à 210) ---
+(NULL, 'Pierre', 'Lombard', 'pierre.lombard@etu.univ.fr', '0703030301', '301 Rue Data', 'Homme', '2003-12-16', 'plombard', 'etu456', 'ETUDIANT'),
+(NULL, 'Rose', 'Bruneau', 'rose.bruneau@etu.univ.fr', '0703030302', '302 Rue Base', 'Femme', '2004-01-18', 'rbruneau', 'etu456', 'ETUDIANT'),
+(NULL, 'Evan', 'Clement', 'evan.clement@etu.univ.fr', '0703030303', '303 Rue Table', 'Homme', '2004-02-20', 'eclement', 'etu456', 'ETUDIANT'),
+(NULL, 'Maeva', 'Fouquet', 'maeva.fouquet@etu.univ.fr', '0703030304', '304 Rue Row', 'Femme', '2004-03-22', 'mfouquet', 'etu456', 'ETUDIANT'),
+(NULL, 'Victor', 'Chevalier', 'victor.chevalier@etu.univ.fr', '0703030305', '305 Rue Col', 'Homme', '2004-04-24', 'vchevalier', 'etu456', 'ETUDIANT'),
+(NULL, 'Celia', 'Poulain', 'celia.poulain@etu.univ.fr', '0703030306', '306 Rue Index', 'Femme', '2004-05-26', 'cpoulain', 'etu456', 'ETUDIANT'),
+(NULL, 'Nolan', 'Bousquet', 'nolan.bousquet@etu.univ.fr', '0703030307', '307 Rue Key', 'Homme', '2004-06-28', 'nbousquet', 'etu456', 'ETUDIANT'),
+(NULL, 'Elena', 'Hardy', 'elena.hardy@etu.univ.fr', '0703030308', '308 Rue Join', 'Femme', '2004-07-30', 'ehardy', 'etu456', 'ETUDIANT'),
+(NULL, 'Timothe', 'Roux', 'timothe.roux@etu.univ.fr', '0703030309', '309 Rue View', 'Homme', '2004-08-01', 'troux', 'etu456', 'ETUDIANT'),
+(NULL, 'Apolline', 'Courtois', 'apolline.courtois@etu.univ.fr', '0703030310', '310 Rue Trigger', 'Femme', '2004-09-03', 'acourtois', 'etu456', 'ETUDIANT'),
+(NULL, 'Samuel', 'Magny', 'samuel.magny@etu.univ.fr', '0703030311', '311 Rue Proc', 'Homme', '2004-10-05', 'smagny', 'etu456', 'ETUDIANT'),
+(NULL, 'Iris', 'Potier', 'iris.potier@etu.univ.fr', '0703030312', '312 Rue Func', 'Femme', '2004-11-07', 'ipotier', 'etu456', 'ETUDIANT'),
+(NULL, 'Lenny', 'Bouvier', 'lenny.bouvier@etu.univ.fr', '0703030313', '313 Rue Json', 'Homme', '2004-12-09', 'lbouvier', 'etu456', 'ETUDIANT'),
+(NULL, 'Anais', 'Pruvost', 'anais.pruvost@etu.univ.fr', '0703030314', '314 Rue Xml', 'Femme', '2003-01-11', 'apruvost', 'etu456', 'ETUDIANT'),
+(NULL, 'Mohamed', 'Gillet', 'mohamed.gillet@etu.univ.fr', '0703030315', '315 Rue Csv', 'Homme', '2003-02-13', 'mgillet', 'etu456', 'ETUDIANT'),
+(NULL, 'Alicia', 'Menard', 'alicia.menard@etu.univ.fr', '0703030316', '316 Rue Big', 'Femme', '2003-03-15', 'amenard', 'etu456', 'ETUDIANT'),
+(NULL, 'Antonin', 'Raynaud', 'antonin.raynaud@etu.univ.fr', '0703030317', '317 Rue Data', 'Homme', '2003-04-17', 'araynaud', 'etu456', 'ETUDIANT'),
+(NULL, 'Elina', 'Villard', 'elina.villard@etu.univ.fr', '0703030318', '318 Rue Cloud', 'Femme', '2003-05-19', 'evillard', 'etu456', 'ETUDIANT'),
+(NULL, 'Quentin', 'Mallet', 'quentin.mallet@etu.univ.fr', '0703030319', '319 Rue Saas', 'Homme', '2003-06-21', 'qmallet', 'etu456', 'ETUDIANT'),
+(NULL, 'Yasmine', 'Herry', 'yasmine.herry@etu.univ.fr', '0703030320', '320 Rue Paas', 'Femme', '2003-07-23', 'yherry', 'etu456', 'ETUDIANT'),
+(NULL, 'Bastien', 'Pineau', 'bastien.pineau@etu.univ.fr', '0703030321', '321 Rue Iaas', 'Homme', '2003-08-25', 'bpineau', 'etu456', 'ETUDIANT'),
+(NULL, 'Noemie', 'Albert', 'noemie.albert@etu.univ.fr', '0703030322', '322 Rue Vm', 'Femme', '2003-09-27', 'nalbert', 'etu456', 'ETUDIANT'),
+(NULL, 'Dorian', 'Besse', 'dorian.besse@etu.univ.fr', '0703030323', '323 Rue Docker', 'Homme', '2003-10-29', 'dbesse', 'etu456', 'ETUDIANT'),
+(NULL, 'Lucie', 'Cousin', 'lucie.cousin@etu.univ.fr', '0703030324', '324 Rue K8s', 'Femme', '2003-11-01', 'lcousin', 'etu456', 'ETUDIANT'),
+(NULL, 'Remi', 'Thomas', 'remi.thomas@etu.univ.fr', '0703030325', '325 Rue Devops', 'Homme', '2003-12-03', 'rthomas', 'etu456', 'ETUDIANT'),
+(NULL, 'Valentine', 'Humbert', 'valentine.humbert@etu.univ.fr', '0703030326', '326 Rue Agile', 'Femme', '2004-01-05', 'vhumbert', 'etu456', 'ETUDIANT'),
+(NULL, 'Florian', 'Vigneron', 'florian.vigneron@etu.univ.fr', '0703030327', '327 Rue Scrum', 'Homme', '2004-02-07', 'fvigneron', 'etu456', 'ETUDIANT'),
+(NULL, 'Elsa', 'Borel', 'elsa.borel@etu.univ.fr', '0703030328', '328 Rue Kanban', 'Femme', '2004-03-09', 'eborel', 'etu456', 'ETUDIANT'),
+(NULL, 'Benjamin', 'Faivre', 'benjamin.faivre@etu.univ.fr', '0703030329', '329 Rue Sprint', 'Homme', '2004-04-11', 'bfaivre', 'etu456', 'ETUDIANT'),
+(NULL, 'Justine', 'Lelong', 'justine.lelong@etu.univ.fr', '0703030330', '330 Rue Back', 'Femme', '2004-05-13', 'jlelong', 'etu456', 'ETUDIANT'),
+(NULL, 'Damien', 'Morvan', 'damien.morvan@etu.univ.fr', '0703030331', '331 Rue Log', 'Homme', '2004-06-15', 'dmorvan', 'etu456', 'ETUDIANT'),
+(NULL, 'Coline', 'Fleury', 'coline.fleury@etu.univ.fr', '0703030332', '332 Rue User', 'Femme', '2004-07-17', 'cfleury', 'etu456', 'ETUDIANT'),
+(NULL, 'Jeremy', 'Peron', 'jeremy.peron@etu.univ.fr', '0703030333', '333 Rue Admin', 'Homme', '2004-08-19', 'jperon', 'etu456', 'ETUDIANT');
+
+
+-- ============================================================
+-- 2. CRÉATION DES PROFILS ÉTUDIANTS (MAPPING SPÉCIALISÉ)
+-- ============================================================
+
+INSERT INTO ETUDIANT (id_etudiant, id_utilisateur, id_groupe, id_parcours, id_type, id_mention, est_apprenti, est_anglophone, est_redoublant, id_covoiturage) VALUES
+
+-- ------------------------------------------------------------
+-- A. LES COVOITURAGES (12 Personnes - Mix de parcours)
+-- IDs 111-122
+-- ------------------------------------------------------------
+-- Groupe 601 (2 personnes P_A)
+(NULL, 111, NULL, 'P_A', 'GEN', 'B', 0, 0, 0, 601),
+(NULL, 112, NULL, 'P_A', 'TECH', 'TB', 0, 0, 0, 601),
+
+-- Groupe 602 (3 personnes P_B)
+(NULL, 145, NULL, 'P_B', 'GEN', 'AB', 0, 0, 0, 602),
+(NULL, 146, NULL, 'P_B', 'GEN', 'B', 0, 0, 0, 602),
+(NULL, 147, NULL, 'P_B', 'PRO', 'TB', 0, 0, 0, 602),
+
+-- Groupe 603 (2 personnes P_C)
+(NULL, 178, NULL, 'P_C', 'GEN', 'B', 0, 0, 0, 603),
+(NULL, 179, NULL, 'P_C', 'TECH', 'AB', 0, 0, 0, 603),
+
+-- ------------------------------------------------------------
+-- B. LES ANGLOPHONES (10 Personnes - Dispersés)
+-- ------------------------------------------------------------
+(NULL, 120, NULL, 'P_A', 'GEN', 'TB', 0, 1, 0, NULL),
+(NULL, 121, NULL, 'P_A', 'GEN', 'B', 0, 1, 0, NULL),
+(NULL, 122, NULL, 'P_A', 'TECH', 'AB', 0, 1, 0, NULL),
+(NULL, 150, NULL, 'P_B', 'GEN', 'B', 0, 1, 0, NULL),
+(NULL, 151, NULL, 'P_B', 'GEN', 'TB', 0, 1, 0, NULL),
+(NULL, 152, NULL, 'P_B', 'PRO', 'B', 0, 1, 0, NULL),
+(NULL, 185, NULL, 'P_C', 'GEN', 'AB', 0, 1, 0, NULL),
+(NULL, 186, NULL, 'P_C', 'TECH', 'TB', 0, 1, 0, NULL),
+(NULL, 187, NULL, 'P_C', 'GEN', 'B', 0, 1, 0, NULL),
+(NULL, 188, NULL, 'P_C', 'GEN', 'AB', 0, 1, 0, NULL),
+
+-- ------------------------------------------------------------
+-- C. LES REDOUBLANTS (10 Personnes - Dispersés)
+-- ------------------------------------------------------------
+(NULL, 130, NULL, 'P_A', 'TECH', 'B', 0, 0, 1, NULL),
+(NULL, 131, NULL, 'P_A', 'GEN', 'AB', 0, 0, 1, NULL),
+(NULL, 132, NULL, 'P_A', 'GEN', 'PASS', 0, 0, 1, NULL),
+(NULL, 160, NULL, 'P_B', 'PRO', 'TB', 0, 0, 1, NULL),
+(NULL, 161, NULL, 'P_B', 'GEN', 'B', 0, 0, 1, NULL),
+(NULL, 162, NULL, 'P_B', 'TECH', 'AB', 0, 0, 1, NULL),
+(NULL, 195, NULL, 'P_C', 'GEN', 'B', 0, 0, 1, NULL),
+(NULL, 196, NULL, 'P_C', 'GEN', 'TB', 0, 0, 1, NULL),
+(NULL, 197, NULL, 'P_C', 'TECH', 'B', 0, 0, 1, NULL),
+(NULL, 198, NULL, 'P_C', 'GEN', 'AB', 0, 0, 1, NULL),
+
+-- ------------------------------------------------------------
+-- D. LE RESTE DES ÉTUDIANTS (Standard)
+-- ------------------------------------------------------------
+
+-- Reste Parcours A (IDs 113-119, 123-129, 133-144)
+(NULL, 113, NULL, 'P_A', 'GEN', 'B', 0, 0, 0, NULL), (NULL, 114, NULL, 'P_A', 'GEN', 'AB', 0, 0, 0, NULL),
+(NULL, 115, NULL, 'P_A', 'TECH', 'TB', 0, 0, 0, NULL), (NULL, 116, NULL, 'P_A', 'GEN', 'B', 0, 0, 0, NULL),
+(NULL, 117, NULL, 'P_A', 'GEN', 'AB', 0, 0, 0, NULL), (NULL, 118, NULL, 'P_A', 'PRO', 'B', 0, 0, 0, NULL),
+(NULL, 119, NULL, 'P_A', 'GEN', 'TB', 0, 0, 0, NULL), (NULL, 123, NULL, 'P_A', 'GEN', 'B', 0, 0, 0, NULL),
+(NULL, 124, NULL, 'P_A', 'TECH', 'AB', 0, 0, 0, NULL), (NULL, 125, NULL, 'P_A', 'GEN', 'B', 0, 0, 0, NULL),
+(NULL, 126, NULL, 'P_A', 'GEN', 'TB', 0, 0, 0, NULL), (NULL, 127, NULL, 'P_A', 'GEN', 'AB', 0, 0, 0, NULL),
+(NULL, 128, NULL, 'P_A', 'PRO', 'TB', 0, 0, 0, NULL), (NULL, 129, NULL, 'P_A', 'GEN', 'B', 0, 0, 0, NULL),
+(NULL, 133, NULL, 'P_A', 'TECH', 'AB', 0, 0, 0, NULL), (NULL, 134, NULL, 'P_A', 'GEN', 'B', 0, 0, 0, NULL),
+(NULL, 135, NULL, 'P_A', 'GEN', 'TB', 0, 0, 0, NULL), (NULL, 136, NULL, 'P_A', 'GEN', 'AB', 0, 0, 0, NULL),
+(NULL, 137, NULL, 'P_A', 'PRO', 'B', 0, 0, 0, NULL), (NULL, 138, NULL, 'P_A', 'GEN', 'B', 0, 0, 0, NULL),
+(NULL, 139, NULL, 'P_A', 'TECH', 'TB', 0, 0, 0, NULL), (NULL, 140, NULL, 'P_A', 'GEN', 'AB', 0, 0, 0, NULL),
+(NULL, 141, NULL, 'P_A', 'GEN', 'B', 0, 0, 0, NULL), (NULL, 142, NULL, 'P_A', 'GEN', 'TB', 0, 0, 0, NULL),
+(NULL, 143, NULL, 'P_A', 'TECH', 'AB', 0, 0, 0, NULL), (NULL, 144, NULL, 'P_A', 'GEN', 'B', 0, 0, 0, NULL),
+
+-- Reste Parcours B (IDs 148-149, 153-159, 163-177)
+(NULL, 148, NULL, 'P_B', 'GEN', 'B', 0, 0, 0, NULL), (NULL, 149, NULL, 'P_B', 'GEN', 'AB', 0, 0, 0, NULL),
+(NULL, 153, NULL, 'P_B', 'TECH', 'TB', 0, 0, 0, NULL), (NULL, 154, NULL, 'P_B', 'GEN', 'B', 0, 0, 0, NULL),
+(NULL, 155, NULL, 'P_B', 'GEN', 'AB', 0, 0, 0, NULL), (NULL, 156, NULL, 'P_B', 'PRO', 'B', 0, 0, 0, NULL),
+(NULL, 157, NULL, 'P_B', 'GEN', 'TB', 0, 0, 0, NULL), (NULL, 158, NULL, 'P_B', 'TECH', 'AB', 0, 0, 0, NULL),
+(NULL, 159, NULL, 'P_B', 'GEN', 'B', 0, 0, 0, NULL), (NULL, 163, NULL, 'P_B', 'GEN', 'TB', 0, 0, 0, NULL),
+(NULL, 164, NULL, 'P_B', 'GEN', 'AB', 0, 0, 0, NULL), (NULL, 165, NULL, 'P_B', 'PRO', 'TB', 0, 0, 0, NULL),
+(NULL, 166, NULL, 'P_B', 'GEN', 'B', 0, 0, 0, NULL), (NULL, 167, NULL, 'P_B', 'TECH', 'AB', 0, 0, 0, NULL),
+(NULL, 168, NULL, 'P_B', 'GEN', 'B', 0, 0, 0, NULL), (NULL, 169, NULL, 'P_B', 'GEN', 'TB', 0, 0, 0, NULL),
+(NULL, 170, NULL, 'P_B', 'GEN', 'AB', 0, 0, 0, NULL), (NULL, 171, NULL, 'P_B', 'PRO', 'B', 0, 0, 0, NULL),
+(NULL, 172, NULL, 'P_B', 'GEN', 'B', 0, 0, 0, NULL), (NULL, 173, NULL, 'P_B', 'TECH', 'TB', 0, 0, 0, NULL),
+(NULL, 174, NULL, 'P_B', 'GEN', 'AB', 0, 0, 0, NULL), (NULL, 175, NULL, 'P_B', 'GEN', 'B', 0, 0, 0, NULL),
+(NULL, 176, NULL, 'P_B', 'GEN', 'TB', 0, 0, 0, NULL), (NULL, 177, NULL, 'P_B', 'TECH', 'AB', 0, 0, 0, NULL),
+
+-- Reste Parcours C (IDs 180-184, 189-194, 199-210)
+(NULL, 180, NULL, 'P_C', 'GEN', 'B', 0, 0, 0, NULL), (NULL, 181, NULL, 'P_C', 'GEN', 'AB', 0, 0, 0, NULL),
+(NULL, 182, NULL, 'P_C', 'TECH', 'TB', 0, 0, 0, NULL), (NULL, 183, NULL, 'P_C', 'GEN', 'B', 0, 0, 0, NULL),
+(NULL, 184, NULL, 'P_C', 'GEN', 'AB', 0, 0, 0, NULL), (NULL, 189, NULL, 'P_C', 'PRO', 'B', 0, 0, 0, NULL),
+(NULL, 190, NULL, 'P_C', 'GEN', 'TB', 0, 0, 0, NULL), (NULL, 191, NULL, 'P_C', 'TECH', 'AB', 0, 0, 0, NULL),
+(NULL, 192, NULL, 'P_C', 'GEN', 'B', 0, 0, 0, NULL), (NULL, 193, NULL, 'P_C', 'GEN', 'TB', 0, 0, 0, NULL),
+(NULL, 194, NULL, 'P_C', 'GEN', 'AB', 0, 0, 0, NULL), (NULL, 199, NULL, 'P_C', 'PRO', 'TB', 0, 0, 0, NULL),
+(NULL, 200, NULL, 'P_C', 'GEN', 'B', 0, 0, 0, NULL), (NULL, 201, NULL, 'P_C', 'TECH', 'AB', 0, 0, 0, NULL),
+(NULL, 202, NULL, 'P_C', 'GEN', 'B', 0, 0, 0, NULL), (NULL, 203, NULL, 'P_C', 'GEN', 'TB', 0, 0, 0, NULL),
+(NULL, 204, NULL, 'P_C', 'GEN', 'AB', 0, 0, 0, NULL), (NULL, 205, NULL, 'P_C', 'PRO', 'B', 0, 0, 0, NULL),
+(NULL, 206, NULL, 'P_C', 'GEN', 'B', 0, 0, 0, NULL), (NULL, 207, NULL, 'P_C', 'TECH', 'TB', 0, 0, 0, NULL),
+(NULL, 208, NULL, 'P_C', 'GEN', 'AB', 0, 0, 0, NULL), (NULL, 209, NULL, 'P_C', 'GEN', 'B', 0, 0, 0, NULL),
+(NULL, 210, NULL, 'P_C', 'GEN', 'TB', 0, 0, 0, NULL);

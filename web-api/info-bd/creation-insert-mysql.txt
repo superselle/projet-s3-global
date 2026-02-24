@@ -1,0 +1,236 @@
+-- ============================================================
+-- 1. NETTOYAGE ET CRÉATION DES TABLES (MySQL)
+-- ============================================================
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- Suppression de toutes les tables existantes
+DROP TABLE IF EXISTS MATIERE_GROUPE;
+DROP TABLE IF EXISTS ENSEIGNANT_MATIERE;
+DROP TABLE IF EXISTS ETUDIANT_REPONSE;
+DROP TABLE IF EXISTS SIGNALEMENT;
+DROP TABLE IF EXISTS NOTE;
+DROP TABLE IF EXISTS ETUDIANT;
+DROP TABLE IF EXISTS COVOITURAGE;
+DROP TABLE IF EXISTS GROUPE;
+DROP TABLE IF EXISTS ENSEIGNANT;
+DROP TABLE IF EXISTS TYPE_BAC;
+DROP TABLE IF EXISTS ROLE;
+DROP TABLE IF EXISTS MENTION_BAC;
+DROP TABLE IF EXISTS REPONSE;
+DROP TABLE IF EXISTS MATIERE;
+DROP TABLE IF EXISTS PARCOURS;
+DROP TABLE IF EXISTS SONDAGE;
+DROP TABLE IF EXISTS FORMATION;
+DROP TABLE IF EXISTS UTILISATEUR;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- --- TABLES ---
+
+-- UTILISATEUR (Auto-Increment activé)
+CREATE TABLE UTILISATEUR(
+   id_utilisateur INT AUTO_INCREMENT,
+   prenom_utilisateur VARCHAR(50) NOT NULL,
+   nom_utilisateur VARCHAR(50) NOT NULL,
+   mail_utilisateur VARCHAR(100) NOT NULL,
+   tel_utilisateur VARCHAR(15),
+   adresse_utilisateur VARCHAR(200),
+   genre_utilisateur VARCHAR(20),
+   statut_utilisateur VARCHAR(20),
+   date_naissance DATE,
+   login_utilisateur VARCHAR(50) NOT NULL,
+   mdp_hash_utilisateur VARCHAR(255) NOT NULL, 
+   PRIMARY KEY(id_utilisateur)
+);
+
+-- SIGNALEMENT (Auto-Increment activé)
+-- Fonctionnalité simple "cours" : stockage + statut traité
+CREATE TABLE SIGNALEMENT(
+   id_signalement INT AUTO_INCREMENT,
+   id_utilisateur INT NULL,
+   sujet VARCHAR(255) NULL,
+   description TEXT NOT NULL,
+   contact_email VARCHAR(255) NULL,
+   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   traite TINYINT(1) NOT NULL DEFAULT 0,
+   PRIMARY KEY(id_signalement),
+   FOREIGN KEY(id_utilisateur) REFERENCES UTILISATEUR(id_utilisateur)
+);
+
+-- FORMATION
+CREATE TABLE FORMATION(
+   id_formation VARCHAR(10), 
+   nom_formation VARCHAR(100),
+   PRIMARY KEY(id_formation)
+);
+
+CREATE TABLE PARCOURS(
+   id_parcours VARCHAR(10),
+   initiale_parcours VARCHAR(5),
+   nom_parcours VARCHAR(100),
+   type_parcours VARCHAR(10),
+   id_formation VARCHAR(10) NOT NULL,
+   PRIMARY KEY(id_parcours),
+   FOREIGN KEY(id_formation) REFERENCES FORMATION(id_formation)
+);
+
+-- SONDAGE (Auto-Increment activé)
+-- Un sondage est lié à une "promotion" logique (annee_scolaire + semestre + id_parcours)
+-- et peut être soit à choix unique, soit un classement de préférences.
+CREATE TABLE SONDAGE (
+   id_sondage INT AUTO_INCREMENT,
+   nom_sondage VARCHAR(100) NOT NULL,
+   contenu_sondage TEXT, -- J'ai mis TEXT pour permettre des descriptions plus longues
+   annee_scolaire VARCHAR(9) NOT NULL, -- Ex: "2024-2025"
+   semestre INT NOT NULL,
+   id_parcours VARCHAR(10) NOT NULL,
+   mode_sondage ENUM('unique','classement') NOT NULL DEFAULT 'unique',
+   PRIMARY KEY(id_sondage),
+   -- Assure-toi que la table PARCOURS existe bien, sinon retire la ligne ci-dessous
+   FOREIGN KEY(id_parcours) REFERENCES PARCOURS(id_parcours) ON DELETE CASCADE, 
+   INDEX idx_sondage_promo (annee_scolaire, semestre, id_parcours)
+);
+
+CREATE TABLE ETUDIANT_REPONSE (
+   id_etudiant INT NOT NULL,
+   id_sondage INT NOT NULL,
+   rang INT NOT NULL DEFAULT 1, -- 1 pour choix unique, 1..N pour classement
+   id_reponse INT NOT NULL,
+   
+   PRIMARY KEY(id_etudiant, id_sondage, rang),
+   -- La ligne ci-dessous empêche un étudiant de voter 2 fois pour la même réponse dans le même sondage
+   UNIQUE(id_etudiant, id_sondage, id_reponse), 
+   
+   FOREIGN KEY(id_etudiant) REFERENCES ETUDIANT(id_etudiant) ON DELETE CASCADE,
+   FOREIGN KEY(id_sondage) REFERENCES SONDAGE(id_sondage) ON DELETE CASCADE,
+   FOREIGN KEY(id_reponse) REFERENCES REPONSE(id_reponse) ON DELETE CASCADE
+);
+
+-- MATIERE (Pas d'auto-increment, on garde les IDs logiques ex: 101, 201)
+CREATE TABLE MATIERE(
+   id_matiere INT,                  
+   code_matiere VARCHAR(20),        
+   nom_matiere VARCHAR(100),
+   semestre INT,
+   type_matiere VARCHAR(20),
+   PRIMARY KEY(id_matiere)
+);
+
+
+
+-- MENTION_BAC
+CREATE TABLE MENTION_BAC(
+   id_mention VARCHAR(10), 
+   libelle_mention VARCHAR(50),
+   PRIMARY KEY(id_mention)
+);
+
+-- ROLE
+CREATE TABLE ROLE(
+   id_role VARCHAR(20),
+   libelle_role VARCHAR(50),
+   description VARCHAR(255),
+   PRIMARY KEY(id_role)
+);
+
+-- TYPE_BAC
+CREATE TABLE TYPE_BAC(
+   id_type VARCHAR(10),
+   libelle_type VARCHAR(100),
+   PRIMARY KEY(id_type)
+);
+
+-- ENSEIGNANT (Auto-Increment activé)
+CREATE TABLE ENSEIGNANT(
+   id_enseignant INT AUTO_INCREMENT,
+   id_role VARCHAR(20),
+   id_utilisateur INT NOT NULL,
+   PRIMARY KEY(id_enseignant),
+   UNIQUE(id_utilisateur),
+   FOREIGN KEY(id_role) REFERENCES ROLE(id_role),
+   FOREIGN KEY(id_utilisateur) REFERENCES UTILISATEUR(id_utilisateur)
+);
+
+-- GROUPE (Auto-Increment activé)
+CREATE TABLE GROUPE(
+   id_groupe INT AUTO_INCREMENT,
+   semestre INT NOT NULL,
+   lettre CHAR(1) NOT NULL,
+   nom_groupe VARCHAR(5),
+   annee_scolaire VARCHAR(9),
+   effectif_max INT,
+   id_parcours VARCHAR(10) NOT NULL,
+   PRIMARY KEY(id_groupe),
+   FOREIGN KEY(id_parcours) REFERENCES PARCOURS(id_parcours),
+   CONSTRAINT uk_groupe_unique UNIQUE (semestre, lettre, annee_scolaire, id_parcours)
+);
+
+-- COVOITURAGE
+CREATE TABLE COVOITURAGE(
+   id_covoiturage INT AUTO_INCREMENT,
+   places_max INT NOT NULL,
+   est_ouvert TINYINT(1) NOT NULL DEFAULT 1,
+   PRIMARY KEY(id_covoiturage)
+);
+
+-- ETUDIANT (Auto-Increment activé)
+CREATE TABLE ETUDIANT(
+   id_etudiant INT AUTO_INCREMENT,
+   id_covoiturage INT,
+   est_redoublant TINYINT(1) DEFAULT 0,
+   est_anglophone TINYINT(1) DEFAULT 0,
+   est_apprenti TINYINT(1) DEFAULT 0,
+   id_type VARCHAR(10) NOT NULL,
+   id_mention VARCHAR(10) NOT NULL,
+   id_parcours VARCHAR(10) NOT NULL,
+   id_groupe INT,
+   id_utilisateur INT NOT NULL,
+   PRIMARY KEY(id_etudiant),
+   UNIQUE(id_utilisateur),
+   FOREIGN KEY(id_type) REFERENCES TYPE_BAC(id_type),
+   FOREIGN KEY(id_mention) REFERENCES MENTION_BAC(id_mention),
+   FOREIGN KEY(id_parcours) REFERENCES PARCOURS(id_parcours),
+   FOREIGN KEY(id_groupe) REFERENCES GROUPE(id_groupe),
+   FOREIGN KEY(id_utilisateur) REFERENCES UTILISATEUR(id_utilisateur),
+   FOREIGN KEY(id_covoiturage) REFERENCES COVOITURAGE(id_covoiturage) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+-- NOTE (Auto-Increment activé)
+CREATE TABLE NOTE(
+   id_note INT AUTO_INCREMENT,
+   valeur_note DECIMAL(4,2) NOT NULL,
+   commentaire_note VARCHAR(255),
+   id_etudiant INT NOT NULL,
+   id_matiere INT NOT NULL,
+   PRIMARY KEY(id_note),
+   FOREIGN KEY(id_etudiant) REFERENCES ETUDIANT(id_etudiant),
+   FOREIGN KEY(id_matiere) REFERENCES MATIERE(id_matiere),
+   CONSTRAINT chk_note_valide CHECK (valeur_note BETWEEN 0 AND 20)
+);
+
+-- ASSOCIATIONS
+-- Pour un sondage en mode "unique", on stocke une seule ligne avec rang=1.
+-- Pour un sondage en mode "classement", on stocke plusieurs lignes rang=1..N.
+CREATE TABLE REPONSE (
+   id_reponse INT AUTO_INCREMENT,
+   libelle_reponse VARCHAR(500) NOT NULL, 
+   id_sondage INT NOT NULL,
+   PRIMARY KEY(id_reponse),
+   FOREIGN KEY(id_sondage) REFERENCES SONDAGE(id_sondage) ON DELETE CASCADE
+);
+
+CREATE TABLE ENSEIGNANT_MATIERE(
+   id_enseignant INT,
+   id_matiere INT,
+   PRIMARY KEY(id_enseignant, id_matiere),
+   FOREIGN KEY(id_enseignant) REFERENCES ENSEIGNANT(id_enseignant),
+   FOREIGN KEY(id_matiere) REFERENCES MATIERE(id_matiere)
+);
+
+CREATE TABLE MATIERE_GROUPE(
+   id_groupe INT,
+   id_matiere INT,
+   PRIMARY KEY(id_groupe, id_matiere),
+   FOREIGN KEY(id_groupe) REFERENCES GROUPE(id_groupe),
+   FOREIGN KEY(id_matiere) REFERENCES MATIERE(id_matiere)
+);

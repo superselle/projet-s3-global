@@ -1,0 +1,113 @@
+================================================================================
+TODO STRUCTURÉE - REFONTE ALGOSELMAN
+================================================================================
+STATUS : ✅ TERMINÉ (7 janvier 2026)
+
+[X] PHASE 0 : VALIDATION DES CHOIX
+    [X] Confirmer le score : EcartApprentis + EcartFilles
+    [X] Confirmer les contraintes : taille 17-20, min 1 apprenti, covoit respecté
+    [X] Confirmer le nom du mode : "Équilibrage S2, mixité et Futurs Apprentis"
+
+--------------------------------------------------------------------------------
+
+[X] PHASE 1 : NETTOYAGE
+    [X] Supprimer ou renommer README_AlgoSelman.txt
+    [X] Identifier le code à supprimer vs garder
+
+--------------------------------------------------------------------------------
+
+[X] PHASE 2 : CRÉATION DE LA STRUCTURE (comme Nesrine/Rached)
+
+    [X] 2.1 Créer ContraintesGroupesSelman.java
+        - tailleMin, tailleMax, tailleCible
+        - minApprentisParGroupe (= 1)
+        - covoitMin, covoitMax (= 2, 3)
+        - Méthode statique s2() pour config par défaut
+
+    [X] 2.2 Créer GroupeAlgoSelman.java (interface)
+        - Méthode : List<Groupe> generer(List<Etudiant>, ContraintesGroupesSelman)
+
+    [X] 2.3 Créer GroupingUtilsSelman.java (utilitaires)
+        - choisirNombreDeGroupes(n, contraintes)
+        - initialiserGroupes(k)
+        - construirePacks(etudiants, contraintes) → List<Pack>
+        - verifierSolution(groupes, contraintes) → boolean
+        - calculerScore(groupes) → double
+        - Exception personnalisée GroupingException
+
+    [X] 2.4 Créer Pack.java (ou réutiliser Cluster renommé)
+        - membres : List<Etudiant>
+        - taille : int
+        - nbFilles : int
+        - nbApprentis : int
+        - contientApprenti() : boolean
+        - contientFemme() : boolean
+
+--------------------------------------------------------------------------------
+
+[X] PHASE 3 : RÉÉCRITURE DES ALGORITHMES
+
+    [X] 3.1 GloutonPrioriteSelman.java (Glouton 1)
+        - Critère glouton : Round-Robin avec priorité Apprentis > Femmes > Autres
+        - Implémente GroupeAlgoSelman
+        - Commentaire Javadoc complet
+        - Gestion d'erreurs
+
+    [X] 3.2 GloutonScoreSelman.java (Glouton 2)
+        - Critère glouton : Best Fit (minimiser score à chaque placement)
+        - Implémente GroupeAlgoSelman
+        - Commentaire Javadoc complet
+        - Gestion d'erreurs
+
+    [X] 3.3 ForceBruteSelman.java (Force brute)
+        - Explore toutes les combinaisons
+        - Garde la meilleure (score min)
+        - Limite de nœuds pour éviter explosion
+        - Implémente GroupeAlgoSelman
+        - Commentaire Javadoc complet
+        - Gestion d'erreurs
+
+--------------------------------------------------------------------------------
+
+[X] PHASE 4 : PROGRAMME DE TEST
+
+    [X] 4.1 Garder/Adapter GenerateurDonnees.java
+        - Génère des étudiants avec : genre, statut apprentissage, idCovoiturage
+
+    [X] 4.2 Créer DemoSelman.java (ou adapter InitializationData.java)
+        - Génère N jeux de données aléatoires (ex : N=20)
+        - Exécute les 3 algorithmes sur chaque jeu
+        - Compare : scores moyens, temps d'exécution, nombre de victoires
+        - Affiche les résultats
+
+    [ ] 4.3 Exécuter les tests et noter les résultats
+
+--------------------------------------------------------------------------------
+
+[X] PHASE 5 : DOCUMENTATION
+
+    [X] 5.1 Créer README.md (format identique à Nesrine/Rached)
+        - Description du mode
+        - Contraintes
+        - Critère d'optimisation
+        - Score (formule)
+        - Explication des 3 algorithmes
+        - Résultats des tests
+        - Utilisation (exemple de code)
+
+    [ ] 5.2 Compléter la section Selman dans le rapport global
+
+--------------------------------------------------------------------------------
+
+[ ] PHASE 6 : VÉRIFICATION FINALE
+
+    [ ] Code compile sans erreur
+    [ ] Tests passent
+    [ ] README complet
+    [ ] Commentaires Javadoc sur toutes les fonctions publiques
+    [ ] Gestion d'erreurs avec messages clairs
+    [ ] List/ArrayList utilisé
+    [ ] Aucune notion hors cours (Impress.txt)
+    [ ] Cohérence avec les autres parties (même style)
+
+================================================================================

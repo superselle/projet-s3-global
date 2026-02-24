@@ -1,0 +1,250 @@
+-- ============================================================
+-- LOGIQUE MÉTIER & AUTOMATISATION (Version Compatible Nouvelle BDD)
+-- ============================================================
+
+-- ------------------------------------------------------------
+-- 0. PRÉREQUIS : TABLE DE LOG
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `LOG_OPERATIONS` (
+    `id_log` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `date_action` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `utilisateur_db` VARCHAR(50),
+    `type_action` VARCHAR(20),
+    `description_action` VARCHAR(255)
+) ENGINE=InnoDB;
+
+-- ------------------------------------------------------------
+-- 1. SCENARIOS (VUES)
+-- ------------------------------------------------------------
+
+[cite_start]-- SCENARIO 1 : Vue Étudiant (Profil complet) [cite: 3, 4]
+CREATE OR REPLACE VIEW V_INFOS_ETUDIANT AS
+SELECT 
+    u.id_utilisateur,
+    e.id_etudiant,
+    u.prenom_utilisateur AS prenom,
+    u.nom_utilisateur AS nom,
+    u.mail_utilisateur AS email,
+    u.tel_utilisateur AS telephone,
+    -- Concaténation Type Bac + Mention
+    CONCAT(tb.libelle_type, ' - Mention ', mb.libelle_mention) AS baccalaureat,
+    f.nom_formation,
+    p.nom_parcours,
+    -- Gestion du groupe NULL (Non affecté)
+    COALESCE(g.nom_groupe, 'Non affecté') AS groupe,
+    g.annee_scolaire,
+    -- Statuts
+    CASE WHEN e.est_apprenti = 1 THEN 'Oui' ELSE 'Non' END AS apprenti
+FROM ETUDIANT e
+JOIN UTILISATEUR u ON e.id_utilisateur = u.id_utilisateur
+JOIN TYPE_BAC tb ON e.id_type = tb.id_type
+JOIN MENTION_BAC mb ON e.id_mention = mb.id_mention
+JOIN PARCOURS p ON e.id_parcours = p.id_parcours
+JOIN FORMATION f ON p.id_formation = f.id_formation
+LEFT JOIN GROUPE g ON e.id_groupe = g.id_groupe;
+
+[cite_start]-- SCENARIO 8 : Vue Enseignants (Gestion RH) [cite: 5, 6]
+CREATE OR REPLACE VIEW V_GESTION_ENSEIGNANTS AS
+SELECT 
+    ens.id_enseignant,
+    u.id_utilisateur,
+    u.nom_utilisateur AS nom,
+    u.prenom_utilisateur AS prenom,
+    u.mail_utilisateur AS email,
+    r.libelle_role AS role_actuel
+FROM ENSEIGNANT ens
+JOIN UTILISATEUR u ON ens.id_utilisateur = u.id_utilisateur
+JOIN ROLE r ON ens.id_role = r.id_role;
+
+[cite_start]-- SCENARIO 10 : Vue Pédagogique (Liste de classe simplifiée) [cite: 7, 8]
+CREATE OR REPLACE VIEW V_LISTE_PEDAGOGIQUE AS
+SELECT 
+    e.id_etudiant AS numero,
+    u.nom_utilisateur AS nom,
+    u.prenom_utilisateur AS prenom,
+    u.mail_utilisateur AS email,
+    tb.libelle_type AS type_bac,
+    CASE 
+        WHEN g.nom_groupe IS NULL THEN 'Non affecté'
+        ELSE g.nom_groupe 
+    END AS groupe,
+    g.annee_scolaire
+FROM ETUDIANT e
+JOIN UTILISATEUR u ON e.id_utilisateur = u.id_utilisateur
+JOIN TYPE_BAC tb ON e.id_type = tb.id_type
+LEFT JOIN GROUPE g ON e.id_groupe = g.id_groupe
+ORDER BY g.nom_groupe, u.nom_utilisateur;
+
+-- ------------------------------------------------------------
+-- 2. FONCTIONS & PROCÉDURES
+-- ------------------------------------------------------------
+
+DELIMITER $$
+
+[cite_start]-- Fonction Moyenne (Adaptée à la colonne 'valeur_note') [cite: 9, 10, 11, 12]
+DROP FUNCTION IF EXISTS FNC_MOYENNE_ETUDIANT$$
+
+CREATE FUNCTION FNC_MOYENNE_ETUDIANT(p_id_etudiant INT) 
+RETURNS DECIMAL(4,2)
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE v_moyenne DECIMAL(4,2);
+    DECLARE v_count INT;
+
+    -- Vérifie s'il y a des notes pour cet étudiant
+    SELECT COUNT(*) INTO v_count FROM `NOTE` WHERE `id_etudiant` = p_id_etudiant;
+
+    IF v_count = 0 THEN
+        RETURN NULL; -- Retourne NULL si aucune note
+    ELSE
+        -- Calcul de la moyenne sur 'valeur_note'
+        SELECT AVG(`valeur_note`) INTO v_moyenne FROM `NOTE` WHERE `id_etudiant` = p_id_etudiant;
+        RETURN ROUND(v_moyenne, 2);
+    END IF;
+END$$
+
+[cite_start]-- Procédure Reset Groupes (Adaptée avec 'annee_scolaire' au lieu de Promo) [cite: 13, 14, 15]
+DROP PROCEDURE IF EXISTS PRC_RESET_GROUPES_PROMO$$
+
+CREATE PROCEDURE PRC_RESET_GROUPES_PROMO(IN p_annee_scolaire VARCHAR(9))
+BEGIN
+    -- Met à NULL le groupe des étudiants dont le groupe appartient à l'année donnée
+    UPDATE `ETUDIANT` e
+    INNER JOIN `GROUPE` g ON e.id_groupe = g.id_groupe
+    SET e.id_groupe = NULL
+    WHERE g.annee_scolaire = p_annee_scolaire;
+    
+    -- Pas de SELECT (message) ici pour éviter les erreurs de curseur en PHP, 
+    -- mais l'action est faite.
+END$$
+
+-- ------------------------------------------------------------
+-- 3. TRIGGERS
+-- ------------------------------------------------------------
+
+[cite_start]-- TRG 1 : Nettoyage Données Utilisateur (INSERT) [cite: 16, 17, 18, 19]
+DROP TRIGGER IF EXISTS TRG_DATA_UTILISATEUR_INSERT$$
+
+CREATE TRIGGER TRG_DATA_UTILISATEUR_INSERT
+BEFORE INSERT ON `UTILISATEUR`
+FOR EACH ROW
+BEGIN
+    -- Majuscule Nom
+    SET NEW.nom_utilisateur = UPPER(NEW.nom_utilisateur);
+    -- Première lettre Majuscule Prénom
+    SET NEW.prenom_utilisateur = CONCAT(UPPER(LEFT(NEW.prenom_utilisateur, 1)), LOWER(SUBSTRING(NEW.prenom_utilisateur, 2)));
+
+    -- Validation Email simple
+    IF NEW.mail_utilisateur NOT LIKE '%@%.%' THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Erreur de format : Email invalide.';
+    END IF;
+    
+    -- Validation Date Naissance
+    IF NEW.date_naissance IS NOT NULL AND NEW.date_naissance > CURDATE() THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Erreur de date : La naissance ne peut être dans le futur.';
+    END IF;
+END$$
+
+-- TRG 1 Bis : Nettoyage Données Utilisateur (UPDATE)
+DROP TRIGGER IF EXISTS TRG_DATA_UTILISATEUR_UPDATE$$
+
+CREATE TRIGGER TRG_DATA_UTILISATEUR_UPDATE
+BEFORE UPDATE ON `UTILISATEUR`
+FOR EACH ROW
+BEGIN
+    SET NEW.nom_utilisateur = UPPER(NEW.nom_utilisateur);
+    SET NEW.prenom_utilisateur = CONCAT(UPPER(LEFT(NEW.prenom_utilisateur, 1)), LOWER(SUBSTRING(NEW.prenom_utilisateur, 2)));
+
+    IF NEW.mail_utilisateur NOT LIKE '%@%.%' THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Erreur de format : Email invalide.';
+    END IF;
+    
+    IF NEW.date_naissance IS NOT NULL AND NEW.date_naissance > CURDATE() THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Erreur de date : La naissance ne peut être dans le futur.';
+    END IF;
+END$$
+
+[cite_start]-- TRG 2 : Vérification Capacité Groupe (INSERT) [cite: 22, 23, 24, 25, 26]
+DROP TRIGGER IF EXISTS TRG_CHECK_CAP_GROUPE_INSERT$$
+
+CREATE TRIGGER TRG_CHECK_CAP_GROUPE_INSERT
+BEFORE INSERT ON `ETUDIANT`
+FOR EACH ROW
+BEGIN
+    DECLARE v_nb_actuel INT;
+    DECLARE v_capacite_max INT;
+    DECLARE v_groupe_exists INT;
+
+    -- On vérifie seulement si on essaie d'assigner un groupe
+    IF NEW.id_groupe IS NOT NULL THEN
+        -- Vérif existence et capacité max du groupe
+        SELECT count(*), MAX(effectif_max) INTO v_groupe_exists, v_capacite_max
+        FROM `GROUPE` WHERE id_groupe = NEW.id_groupe;
+
+        IF v_groupe_exists = 0 THEN
+             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Le groupe spécifié est introuvable.';
+        ELSE
+            -- Compte les étudiants DÉJÀ dans ce groupe
+            SELECT COUNT(*) INTO v_nb_actuel FROM `ETUDIANT` WHERE id_groupe = NEW.id_groupe;
+            
+            IF v_nb_actuel >= v_capacite_max THEN
+                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Action impossible : Le groupe est complet.';
+            END IF;
+        END IF;
+    END IF;
+END$$
+
+-- TRG 2 Bis : Vérification Capacité Groupe (UPDATE)
+DROP TRIGGER IF EXISTS TRG_CHECK_CAP_GROUPE_UPDATE$$
+
+CREATE TRIGGER TRG_CHECK_CAP_GROUPE_UPDATE
+BEFORE UPDATE ON `ETUDIANT`
+FOR EACH ROW
+BEGIN
+    DECLARE v_nb_actuel INT;
+    DECLARE v_capacite_max INT;
+    DECLARE v_groupe_exists INT;
+
+    -- Si le groupe change et que le nouveau groupe n'est pas NULL
+    IF NEW.id_groupe IS NOT NULL AND (OLD.id_groupe IS NULL OR NEW.id_groupe != OLD.id_groupe) THEN
+        
+        SELECT count(*), MAX(effectif_max) INTO v_groupe_exists, v_capacite_max
+        FROM `GROUPE` WHERE id_groupe = NEW.id_groupe;
+
+        IF v_groupe_exists = 0 THEN
+             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Le groupe spécifié est introuvable.';
+        ELSE
+            SELECT COUNT(*) INTO v_nb_actuel FROM `ETUDIANT` WHERE id_groupe = NEW.id_groupe;
+            
+            IF v_nb_actuel >= v_capacite_max THEN
+                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Action impossible : Le groupe est complet.';
+            END IF;
+        END IF;
+    END IF;
+END$$
+
+[cite_start]-- TRG 3 : Audit Suppression (Log) [cite: 31, 32, 33, 34, 35]
+DROP TRIGGER IF EXISTS TRG_AUDIT_SUPPRESSION$$
+
+CREATE TRIGGER TRG_AUDIT_SUPPRESSION
+AFTER DELETE ON `ETUDIANT`
+FOR EACH ROW
+BEGIN
+    DECLARE v_info_user VARCHAR(150);
+    
+    -- Récupère infos utilisateur avant suppression définitive
+    SELECT CONCAT(nom_utilisateur, ' ', prenom_utilisateur) INTO v_info_user
+    FROM `UTILISATEUR`
+    WHERE id_utilisateur = OLD.id_utilisateur;
+
+    IF v_info_user IS NULL THEN
+        SET v_info_user = CONCAT('ID Utilisateur ', OLD.id_utilisateur);
+    END IF;
+
+    -- Insertion dans le LOG
+    INSERT INTO `LOG_OPERATIONS` (utilisateur_db, type_action, description_action)
+    VALUES (USER(), 'SUPPRESSION', CONCAT('Suppression de l''étudiant : ', v_info_user));
+END$$
+
+DELIMITER ;
