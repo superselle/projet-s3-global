@@ -1,8 +1,14 @@
-# On force le calcul du Java et du PHP
-java-desktop-app/**/*.java linguist-detectable=true
-web-api/**/*.php linguist-detectable=true
-algo-playground/**/*.java linguist-detectable=true
+# Forcer l'exclusion des fichiers compilés et des rendus qui faussent les stats
+*.class linguist-vendored
+*.pdf linguist-vendored
+*.vpp linguist-vendored
+*.jar linguist-vendored
 
-# On ignore les fichiers de documentation générés ou lourds
-rendus-officiels/*.pdf linguist-documentation
-web-api/info-bd/*.txt linguist-documentation
+# Ignorer les dossiers binaires et les rendus officiels pour le calcul des stats
+java-desktop-app/bin/** linguist-vendored
+rendus-officiels/** linguist-vendored
+
+# S'assurer que les langages principaux sont bien détectés
+*.java linguist-detectable=true
+*.php linguist-detectable=true
+*.sql linguist-detectable=true
